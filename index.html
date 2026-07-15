@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BaeRituals — Premium Artisanal Uji Matcha</title>
+    <meta name="description" content="Discover the art of premium Uji Matcha. Sourced directly from Kyoto, experience absolute purity and vibrant energy in every whisk. Developed in collaboration with Burger Bae.">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Preloader & Splash Screen ("Aesthetic Cool" landing block) -->
+    <div id="preloader">
+        <div class="splash-background">
+            <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAicKcLVGbgbGKpx3fD9EcZxoZJFZDJdOLqlwxLonPGH_2o4PcOIA7tLhs9oCNrXYBY5WeXiIa7JpYXhk_zgDNy1OQP0e9OATyW9VBRE-ryA-2hkXiFc4EAhMW6bIu6oXNuA6uXrzmztlbimUv4772g-t6eD4wWvJTyFMpMhb4ScGnhIreXh6hOYPV8zaFCVQILJA882eNimAXCtE4g1z5VfcFNy5vR3orunMuoHGjbNKgsghqAvGAJE2jxVA7-be7r1zj-dvyX2lQ" alt="Aesthetic iced matcha latte with green marbling" class="splash-img">
+            <div class="splash-gradient"></div>
+        </div>
+        
+        <div class="splash-content">
+            <div class="splash-logo">BaeRituals<span>.</span></div>
+            <h1 class="splash-title">Aesthetic Cool.</h1>
+            <p class="splash-subtitle">Elevate your morning routine with high-grade ceremonial matcha designed for the modern ritual. No crash, just clean energy and pure vibes.</p>
+            
+            <!-- Progress / CTA button -->
+            <div class="splash-actions">
+                <button class="splash-btn" id="enter-experience-btn" disabled>
+                    <span id="btn-text">Loading 0%</span>
+                    <span class="btn-loader-line" id="btn-loader-line"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header Navigation -->
+    <header>
+        <a href="#" class="logo">BaeRituals<span>.</span></a>
+        <nav>
+            <a href="#process">Origin</a>
+            <a href="#process">The Craft</a>
+            <a href="#products">Collection</a>
+            <a href="#simulator">Brew Guide</a>
+        </nav>
+        <a href="#products" class="header-cta">Shop Now</a>
+    </header>
+
+    <!-- Scroll-Driven Animation Section (Starts at the top of the page) -->
+    <section id="process" class="scroll-section">
+        <div class="sticky-wrapper">
+            <!-- Canvas where the frames will render -->
+            <canvas id="matcha-canvas" class="animation-canvas"></canvas>
+            
+            <!-- Vignette shadow overlay for high contrast text readability -->
+            <div class="vignette"></div>
+
+            <!-- Scroll-bound Narrative Blocks -->
+            <div class="scroll-text-container">
+                
+                <!-- Hero Landing Block (Overlaying canvas at the very start) -->
+                <div class="scroll-text-block center-align" id="block-hero">
+                    <div class="hero-tag">Kyoto's Finest Heritage</div>
+                    <h1 class="hero-title">Pure energy, <br><span>whisked</span> to perfection.</h1>
+                    <p class="hero-subtitle">Grown under shade, hand-picked in spring, and stone-ground to absolute purity. Welcome to BaeRituals.</p>
+                    <div class="hero-scroll-btn">
+                        <span>Scroll to Brew</span>
+                        <div class="mouse-icon">
+                            <div class="mouse-wheel"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scroll-text-block" id="block-1">
+                    <h2>Shaded in <span>Silence</span></h2>
+                    <p>Four weeks before harvest, tea fields are covered in dark screens, forcing the leaves to produce intense chlorophyll and rich L-theanine for a sweet, deep umami taste.</p>
+                </div>
+
+                <div class="scroll-text-block right-align" id="block-2">
+                    <h2>Hand-Selected <span>Tencha</span></h2>
+                    <p>Only the tenderest top leaves are hand-picked by masters in early spring. The leaves are quickly steamed, air-dried, and sorted to extract pure "Tencha."</p>
+                </div>
+
+                <div class="scroll-text-block" id="block-3">
+                    <h2>Slow <span>Stone Grinding</span></h2>
+                    <p>Traditional granite mills turn the leaves into fine powder. To prevent friction heat from scorching the delicate aroma, a mill grinds just 30 grams per hour.</p>
+                </div>
+
+                <div class="scroll-text-block center-align" id="block-4">
+                    <h2>The Ultimate <span>Whisk</span></h2>
+                    <p>Add hot water, grab the Chasen bamboo whisk, and stir vigorously in a W-pattern until a creamy jade froth crowns your bowl. A ritual of clarity.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Collection -->
+    <section id="products" class="products-section">
+        <div class="section-header">
+            <span class="section-tag">Curated Selection</span>
+            <h2 class="section-title">The Collection</h2>
+        </div>
+
+        <div class="product-grid">
+            <!-- Product 1: Ceremonial Matcha -->
+            <div class="product-card">
+                <div>
+                    <span class="product-badge">Top Grade</span>
+                    <div class="product-img-placeholder">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12,3C17.5,3 21,6.5 21,12C21,17.5 17.5,21 12,21C6.5,21 3,17.5 3,12C3,6.5 6.5,3 12,3M12,5A7,7 0 0,0 5,12A7,7 0 0,0 12,19A7,7 0 0,0 19,12A7,7 0 0,0 12,5M12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7Z"/>
+                        </svg>
+                    </div>
+                    <h3>Uji Ritual</h3>
+                    <p>Our highest ceremonial grade matcha. Exceptional sweet creaminess with zero bitterness, perfect for Usucha or Koicha preparation.</p>
+                </div>
+                <div class="product-footer">
+                    <span class="product-price">$38.00</span>
+                    <button class="product-btn">Add to Bag</button>
+                </div>
+            </div>
+
+            <!-- Product 2: Everyday Ceremonial -->
+            <div class="product-card">
+                <div>
+                    <div class="product-img-placeholder">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M2,19C2,20.1 2.9,21 4,21H20C21.1,21 22,20.1 22,19V17H2V19M20,3H4C2.9,3 2,3.9 2,5V15H22V5C22,3.9 21.1,3 20,3M12,13C8.69,13 6,10.31 6,7H18C18,10.31 15.31,13 12,13Z"/>
+                        </svg>
+                    </div>
+                    <h3>Daily Zen</h3>
+                    <p>A balanced ceremonial grade suitable for daily lattes or traditional whisking. Vibrant color with a subtle earthy-nutty finish.</p>
+                </div>
+                <div class="product-footer">
+                    <span class="product-price">$26.00</span>
+                    <button class="product-btn">Add to Bag</button>
+                </div>
+            </div>
+
+            <!-- Product 3: Premium Whisk Set -->
+            <div class="product-card">
+                <div>
+                    <span class="product-badge">Handcrafted</span>
+                    <div class="product-img-placeholder">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12,2A3,3 0 0,1 15,5V7H17A2,2 0 0,1 19,9V20A2,2 0 0,1 17,22H7A2,2 0 0,1 5,20V9A2,2 0 0,1 7,7H9V5A3,3 0 0,1 12,2M12,9C9.79,9 8,10.79 8,13C8,15.21 9.79,17 12,17C14.21,17 16,15.21 16,13C16,10.79 14.21,9 12,9M12,11A2,2 0 0,1 14,13A2,2 0 0,1 12,15A2,2 0 0,1 10,13A2,2 0 0,1 12,11Z"/>
+                        </svg>
+                    </div>
+                    <h3>Chasen Bamboo Whisk</h3>
+                    <p>Traditional 100-prong whisk hand-carved from a single piece of golden bamboo. Essential for creating thick, micro-foam froth.</p>
+                </div>
+                <div class="product-footer">
+                    <span class="product-price">$22.00</span>
+                    <button class="product-btn">Add to Bag</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Simulator Section -->
+    <section id="simulator" class="simulator-section">
+        <div class="simulator-container">
+            <div class="simulator-ui">
+                <h2 class="simulator-title">Interactive Whisking Guide</h2>
+                
+                <!-- Water Temp Slider -->
+                <div class="slider-group">
+                    <div class="slider-label-row">
+                        <span class="slider-label">Water Temperature</span>
+                        <span class="slider-value" id="temp-val">80°C</span>
+                    </div>
+                    <input type="range" id="temp-slider" min="60" max="100" value="80">
+                </div>
+
+                <!-- Matcha Powder Slider -->
+                <div class="slider-group">
+                    <div class="slider-label-row">
+                        <span class="slider-label">Matcha Powder</span>
+                        <span class="slider-value" id="powder-val">2.0g</span>
+                    </div>
+                    <input type="range" id="powder-slider" min="1.0" max="4.0" step="0.5" value="2.0">
+                </div>
+
+                <!-- Whisk Speed Slider -->
+                <div class="slider-group">
+                    <div class="slider-label-row">
+                        <span class="slider-label">Whisk Speed (Chasen)</span>
+                        <span class="slider-value" id="speed-val">Medium</span>
+                    </div>
+                    <input type="range" id="speed-slider" min="1" max="3" value="2">
+                </div>
+
+                <!-- Simulation Output Box -->
+                <div class="simulator-result-box">
+                    <div class="result-heading" id="result-status">Perfect Harmony</div>
+                    <p class="result-text" id="result-desc">An ideal temperature and dosage. Whisking at medium-to-fast speeds will unlock a smooth, velvety umami froth without any bitter notes.</p>
+                </div>
+            </div>
+
+            <!-- Virtual Cup Visualizer -->
+            <div class="simulator-preview">
+                <div class="steam-container" id="steam-container">
+                    <div class="steam-line"></div>
+                    <div class="steam-line"></div>
+                    <div class="steam-line"></div>
+                </div>
+                <div class="tea-cup-container">
+                    <div class="tea-cup" id="tea-cup">
+                        <div class="tea-liquid" id="tea-liquid">
+                            <div class="tea-froth" id="tea-froth"></div>
+                        </div>
+                    </div>
+                </div>
+                <button class="simulate-btn" id="whisk-action-btn">Whisk Matcha</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-info">
+                <h4>BaeRituals<span>.</span></h4>
+                <p>Connecting you to the roots of authentic Uji Matcha, one mindful sip at a time. Sustainability and heritage in every cup.</p>
+            </div>
+            <div class="footer-links">
+                <h5>Navigation</h5>
+                <ul>
+                    <li><a href="#process">Origin</a></li>
+                    <li><a href="#process">Craft</a></li>
+                    <li><a href="#products">Collection</a></li>
+                    <li><a href="#simulator">Brewing Guide</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h5>Join the Ritual</h5>
+                <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">Subscribe for brewing tips, new harvesting releases, and special offerings.</p>
+                <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Joined successfully!');">
+                    <input type="email" placeholder="Your email address" class="newsletter-input" required>
+                    <button type="submit" class="newsletter-btn">Join</button>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 BaeRituals. Crafted with deep mindfulness.</p>
+            <div class="social-links">
+                <a href="#">Instagram</a>
+                <a href="#">Pinterest</a>
+                <a href="#">Journal</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Main JavaScript Logic -->
+    <script src="main.js"></script>
+</body>
+</html>
