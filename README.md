@@ -70,7 +70,7 @@ AI was used for:
 - Promotional Videos
 - Logo Concepts
 - Creative Direction
-- Copy Ideation
+- Ideation
 
 ---
 
