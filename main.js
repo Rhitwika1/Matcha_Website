@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ----------------------------------------------------------------
     // 1. Assets Preloading
     // ----------------------------------------------------------------
-    const totalFrames = 51;
+    const totalFrames = 47;
     const images = [];
     let loadedCount = 0;
 
@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
         for (let i = 1; i <= totalFrames; i++) {
             const img = new Image();
             // Path structure matching the uploaded folder
-            img.src = `./ezgif-4b17b71040f733af-jpg/ezgif-frame-${pad(i, 3)}.jpg`;
+            img.src = `./ezgif-4601c917dc2958a0-jpg/ezgif-frame-${pad(i, 3)}.jpg`;
             img.onload = () => {
                 loadedCount++;
                 const percentage = Math.round((loadedCount / totalFrames) * 100);
