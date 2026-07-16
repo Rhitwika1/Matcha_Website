@@ -816,7 +816,7 @@ color:#474747;
     
     /* Premium Glassmorphic backing card for absolute text readability on dynamic canvas */
     /* Slightly reduced opacity for a more transparent look */
-    background: rgba(251, 249, 246, 0.12);
+    background: rgba(251, 249, 246, 0.20);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.28);
