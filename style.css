@@ -69,9 +69,6 @@ body {
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    background: var(--bg-dark);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
     transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.8s ease-out, visibility 0.8s;
 }
 
@@ -89,10 +86,17 @@ body {
     z-index: 1;
 }
 
+.splash-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
 .splash-gradient {
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, rgba(5, 10, 6, 0.55) 0%, rgba(5, 10, 6, 0.92) 85%);
+    background: linear-gradient(180deg, rgba(251, 249, 246, 0.25) 0%, rgba(251, 249, 246, 0.98) 85%);
 }
 
 .splash-content {
@@ -104,20 +108,20 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    color: var(--text-light);
+    color: #1b1c1a;
 }
 
 .splash-logo {
     font-family: var(--font-serif);
     font-size: 2.2rem;
     font-style: italic;
-    color: var(--mint-glow); /* Matcha Green */
+    color: #426535; /* Matcha Green */
     margin-bottom: 2rem;
     letter-spacing: 2px;
 }
 
 .splash-logo span {
-    color: var(--gold); /* Terracotta highlight */
+    color: #d77021; /* Terracotta highlight */
     font-style: normal;
 }
 
@@ -126,7 +130,7 @@ body {
     font-size: 5rem;
     font-weight: 700;
     line-height: 1.1;
-    color: var(--cream); /* Dark leaf green */
+    color: #2d4f22; /* Dark leaf green */
     margin-bottom: 1.5rem;
     letter-spacing: -0.02em;
 }
@@ -135,10 +139,10 @@ body {
     font-family: var(--font-body);
     font-size: 1.25rem;
     line-height: 1.7;
-    color: var(--text-muted);
+    color: #43483f;
     max-width: 600px;
     margin-bottom: 3.5rem;
-    font-weight: 300;
+    font-weight: 400;
 }
 
 .splash-actions {
@@ -153,31 +157,37 @@ body {
     font-weight: 500;
     font-size: 1.05rem;
     color: var(--text-white);
-    background: rgba(255, 255, 255, 0.05); /* Loading warm grey */
+    background: #625b50; /* Loading warm grey */
     padding: 1.2rem 3.5rem;
     border-radius: 50px;
-    border: 1px solid var(--border-glass);
+    border: none;
     text-transform: uppercase;
     letter-spacing: 2px;
     cursor: pointer;
     overflow: hidden;
     min-width: 240px;
     transition: all 0.4s ease;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1) inset,
+                0 10px 30px rgba(98, 91, 80, 0.2),
+                0 0 24px rgba(123, 241, 168, 0.12);
+    text-shadow: 0 0 12px rgba(123, 241, 168, 0.16);
 }
 
 .splash-btn.ready {
-    background: var(--mint-glow); /* Ready matcha green */
-    color: var(--bg-dark);
-    font-weight: 600;
-    box-shadow: 0 10px 30px rgba(123, 241, 168, 0.25);
-    border-color: transparent;
+    background: linear-gradient(135deg, #426535 0%, #5c8150 100%);
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.16) inset,
+                0 12px 32px rgba(66, 101, 53, 0.3),
+                0 0 28px rgba(123, 241, 168, 0.35),
+                0 0 60px rgba(123, 241, 168, 0.2);
 }
 
 .splash-btn.ready:hover {
     transform: translateY(-2px);
-    box-shadow: 0 15px 35px rgba(123, 241, 168, 0.45);
-    background: var(--text-white);
-    color: var(--bg-dark);
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2) inset,
+                0 16px 40px rgba(66, 101, 53, 0.45),
+                0 0 34px rgba(123, 241, 168, 0.42),
+                0 0 72px rgba(123, 241, 168, 0.24);
+    background: linear-gradient(135deg, #507b41 0%, #6f9a5b 100%);
 }
 
 .btn-loader-line {
@@ -401,8 +411,8 @@ section {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid var(--border-glass);
+    background: rgba(0, 0, 0, 0.03);
+    border: 1px solid rgba(0, 0, 0, 0.08);
     padding: 0.5rem 1.2rem;
     border-radius: 50px;
     margin-bottom: 2rem;
@@ -414,15 +424,15 @@ section {
 }
 
 .hero-rating-badge .stars {
-    color: var(--gold);
+    color: #b58212; /* Richer gold for contrast */
     font-size: 0.9rem;
 }
 
 .hero-rating-badge .rating-text {
     font-family: var(--font-sans);
     font-size: 0.75rem;
-    color: var(--text-muted);
-    font-weight: 500;
+    color: #141815; /* Darker charcoal for readability */
+    font-weight: 600;
     letter-spacing: 0.5px;
 }
 
@@ -443,14 +453,14 @@ section {
     gap: 0.5rem;
     font-family: var(--font-sans);
     font-size: 0.75rem;
-    font-weight: 500;
-    color: var(--text-light);
+    font-weight: 600;
+    color: #050a06; /* Darker green for contrast */
     letter-spacing: 1px;
     text-transform: uppercase;
 }
 
 .hero-badge svg {
-    color: var(--mint-glow);
+    color: #0c180e; /* Darker green */
     display: block;
 }
 
@@ -491,15 +501,15 @@ section {
 }
 
 .hero-cta-btn.secondary {
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: var(--text-light);
+    border: 1px solid rgba(15, 32, 18, 0.5); /* Enhanced border opacity */
+    color: #050a06; /* Darker green */
     background: transparent;
 }
 
 .hero-cta-btn.secondary:hover {
-    border-color: var(--mint-glow);
-    color: var(--mint-glow);
-    background: rgba(123, 241, 168, 0.05);
+    border-color: #050a06;
+    color: #050a06;
+    background: rgba(12, 22, 14, 0.06);
     transform: translateY(-2px);
 }
 
@@ -508,7 +518,7 @@ section {
     font-size: 0.9rem;
     font-weight: 500;
     text-transform: uppercase;
-    color: var(--mint-glow);
+    color: #050a06; /* Darker green */
     letter-spacing: 6px;
     margin-bottom: 1.5rem;
     opacity: 0;
@@ -519,9 +529,9 @@ section {
 .hero-title {
     font-family: var(--font-serif);
     font-size: 6rem;
-    font-weight: 400;
+    font-weight: 700;
     line-height: 1;
-    color: var(--cream);
+    color: #050a06; /* Much darker green/black for readability */
     margin-bottom: 2rem;
     max-width: 900px;
     opacity: 0;
@@ -531,39 +541,27 @@ section {
 
 .hero-title span {
     font-style: italic;
-    color: var(--gold);
+    color: #a64b0a; /* Darker burnt orange for visibility */
 }
 
 .hero-subtitle {
     font-family: var(--font-body);
-    font-weight: 300;
-    font-size: 1.2rem;
+    font-weight: 400;
+    font-size: 1.25rem;
     line-height: 1.8;
-    color: var(--text-muted);
+    color: #1c221d; /* Darker charcoal for readability */
     max-width: 720px;
-    text-shadow:
-
-0 10px 35px rgba(0,0,0,.4);
     margin-bottom: 3rem;
     opacity: 0;
     transform: translateY(20px);
     animation: fadeInUp 1s forwards 0.9s;
-
-}
-.hero-cta-btn{
-
-box-shadow:
-
-0 12px 35px rgba(123,241,168,.25);
-transform:
-
-translateY(-4px)
-
-scale(1.03);
-
 }
 
-.hero-scroll-btn {
+.hero-cta-btn {
+    box-shadow: 0 10px 30px rgba(66, 101, 53, 0.15);
+}
+
+.hero-scroll-indicator {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -572,26 +570,31 @@ scale(1.03);
     opacity: 0;
     animation: fadeInUp 1.2s forwards 1.1s;
     cursor: pointer;
+    position: absolute;
+    bottom: 3rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 5;
 }
 
-.hero-scroll-btn span {
+.hero-scroll-indicator span {
     font-family: var(--font-sans);
     font-size: 0.8rem;
-    font-weight: 400;
-    color: var(--text-muted);
+    font-weight: 600;
+    color: #1c221d; /* Darker grey for contrast */
     text-transform: uppercase;
     letter-spacing: 3px;
     transition: var(--transition-fast);
 }
 
-.hero-scroll-btn:hover span {
-    color: var(--mint-glow);
+.hero-scroll-indicator:hover span {
+    color: #050a06; /* Darker hover state */
 }
 
 .mouse-icon {
     width: 24px;
     height: 40px;
-    border: 2px solid var(--text-muted);
+    border: 2px solid #1c221d; /* Darker border */
     border-radius: 20px;
     position: relative;
 }
@@ -599,7 +602,7 @@ scale(1.03);
 .mouse-wheel {
     width: 4px;
     height: 8px;
-    background-color: var(--mint-glow);
+    background-color: #050a06; /* Darker scroll wheel */
     border-radius: 2px;
     position: absolute;
     top: 8px;
@@ -700,22 +703,22 @@ scale(1.03);
 .scroll-text-block h2 {
     font-family: var(--font-serif);
     font-size: 3.5rem;
-    font-weight: 400;
-    color: var(--cream);
+    font-weight: 700;
+    color: #050a06; /* Darker green/black for readability */
     line-height: 1.2;
     margin-bottom: 1.5rem;
 }
 
 .scroll-text-block h2 span {
-    color: var(--mint-glow);
+    color: #a64b0a; /* Darker burnt orange for visibility */
 }
 
 .scroll-text-block p {
     font-family: var(--font-body);
     font-size: 1.1rem;
     line-height: 1.8;
-    color: var(--text-muted);
-    font-weight: 300;
+    color: #1c221d; /* Darker charcoal for readability */
+    font-weight: 400;
 }
 
 /* Visual Canvas Vignette for Cinematic Look and Noise Masking */
