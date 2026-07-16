@@ -430,6 +430,480 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
     document.head.appendChild(styleSheet);
 
-    // Initial run
+    // ----------------------------------------------------------------
+    // 5. Header Scroll Effect
+    // ----------------------------------------------------------------
+    const header = document.querySelector('header');
+    function checkHeaderScroll() {
+        if (window.scrollY > 50) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+    }
+    window.addEventListener('scroll', checkHeaderScroll);
+    checkHeaderScroll(); // Run once in case page loads scrolled down
+
+    // ----------------------------------------------------------------
+    // 6. Mobile Menu Overlay Logic
+    // ----------------------------------------------------------------
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+    const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+
+    if (mobileMenuBtn && mobileMenuOverlay) {
+        mobileMenuBtn.addEventListener('click', () => {
+            const isActive = mobileMenuBtn.classList.toggle('active');
+            mobileMenuOverlay.classList.toggle('active');
+            mobileMenuBtn.setAttribute('aria-expanded', isActive);
+            // Disable scroll when mobile menu is open
+            document.body.style.overflow = isActive ? 'hidden' : '';
+        });
+
+        mobileNavLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenuBtn.classList.remove('active');
+                mobileMenuOverlay.classList.remove('active');
+                mobileMenuBtn.setAttribute('aria-expanded', 'false');
+                document.body.style.overflow = '';
+            });
+        });
+    }
+
+    // ----------------------------------------------------------------
+    // 7. Premium E-commerce Cart Logic
+    // ----------------------------------------------------------------
+    let cart = [];
+    const cartDrawer = document.getElementById('cart-drawer');
+    const cartOverlay = document.getElementById('cart-overlay');
+    const cartCloseBtn = document.getElementById('cart-close-btn');
+    const openCartBtn = document.getElementById('header-cart-btn');
+    const cartItemsContainer = document.getElementById('cart-items');
+    const cartTotalBadge = document.getElementById('cart-count');
+    const cartTotalCountText = document.getElementById('cart-total-count');
+    const cartSubtotalText = document.getElementById('cart-subtotal');
+    const checkoutBtn = document.getElementById('cart-checkout-btn');
+    const toast = document.getElementById('toast-notification');
+
+    function showToast(message) {
+        if (!toast) return;
+        toast.textContent = message;
+        toast.classList.add('active');
+        setTimeout(() => {
+            toast.classList.remove('active');
+        }, 2500);
+    }
+
+    function toggleCart(isOpen) {
+        if (!cartDrawer) return;
+        if (isOpen) {
+            cartDrawer.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        } else {
+            cartDrawer.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    }
+
+    if (openCartBtn) openCartBtn.addEventListener('click', () => toggleCart(true));
+    if (cartCloseBtn) cartCloseBtn.addEventListener('click', () => toggleCart(false));
+    if (cartOverlay) cartOverlay.addEventListener('click', () => toggleCart(false));
+
+    function updateCartUI() {
+        if (!cartItemsContainer) return;
+        
+        let totalCount = 0;
+        let subtotal = 0;
+
+        if (cart.length === 0) {
+            cartItemsContainer.innerHTML = '<div class="cart-empty-message">Your bag is empty.</div>';
+            if (checkoutBtn) checkoutBtn.disabled = true;
+        } else {
+            cartItemsContainer.innerHTML = '';
+            if (checkoutBtn) checkoutBtn.disabled = false;
+
+            cart.forEach(item => {
+                totalCount += item.quantity;
+                subtotal += item.price * item.quantity;
+
+                const itemEl = document.createElement('div');
+                itemEl.className = 'cart-item';
+                itemEl.innerHTML = `
+                    <img src="${item.image}" alt="${item.name}" class="cart-item-img">
+                    <div class="cart-item-details">
+                        <h4 class="cart-item-title">${item.name}</h4>
+                        <span class="cart-item-price">$${item.price.toFixed(2)}</span>
+                        <div class="cart-item-qty">
+                            <button class="cart-qty-btn decrease-qty" data-id="${item.id}">-</button>
+                            <span class="cart-qty-val">${item.quantity}</span>
+                            <button class="cart-qty-btn increase-qty" data-id="${item.id}">+</button>
+                        </div>
+                    </div>
+                    <button class="cart-item-remove" data-id="${item.id}">Remove</button>
+                `;
+                cartItemsContainer.appendChild(itemEl);
+            });
+        }
+
+        // Update totals & badges
+        if (cartTotalBadge) cartTotalBadge.textContent = totalCount;
+        if (cartTotalCountText) cartTotalCountText.textContent = totalCount;
+        if (cartSubtotalText) cartSubtotalText.textContent = `$${subtotal.toFixed(2)}`;
+
+        // Attach listeners for interactive elements inside drawer
+        document.querySelectorAll('.increase-qty').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const id = e.target.getAttribute('data-id');
+                changeQuantity(id, 1);
+            });
+        });
+
+        document.querySelectorAll('.decrease-qty').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const id = e.target.getAttribute('data-id');
+                changeQuantity(id, -1);
+            });
+        });
+
+        document.querySelectorAll('.cart-item-remove').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const id = e.target.getAttribute('data-id');
+                removeFromCart(id);
+            });
+        });
+    }
+
+    function addToCart(id, name, price, image, qty = 1) {
+        const existingItem = cart.find(item => item.id === id);
+        if (existingItem) {
+            existingItem.quantity += qty;
+        } else {
+            cart.push({ id, name, price: parseFloat(price), image, quantity: qty });
+        }
+        updateCartUI();
+        const toastMsg = qty > 1 ? `${qty}x ${name} added to your bag.` : `${name} added to your bag.`;
+        showToast(toastMsg);
+        // Elegant micro-interaction: automatically slide cart drawer open
+        setTimeout(() => {
+            toggleCart(true);
+        }, 500);
+    }
+
+    function changeQuantity(id, delta) {
+        const item = cart.find(item => item.id === id);
+        if (item) {
+            item.quantity += delta;
+            if (item.quantity <= 0) {
+                removeFromCart(id);
+            } else {
+                updateCartUI();
+            }
+        }
+    }
+
+    function removeFromCart(id) {
+        const item = cart.find(item => item.id === id);
+        const name = item ? item.name : 'Item';
+        cart = cart.filter(item => item.id !== id);
+        updateCartUI();
+        showToast(`${name} removed from your bag.`);
+    }
+
+    // Attach listeners to "Add to Bag" buttons on product grid
+    document.querySelectorAll('.product-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const id = e.target.getAttribute('data-product-id');
+            const name = e.target.getAttribute('data-product-name');
+            const price = e.target.getAttribute('data-product-price');
+            const image = e.target.getAttribute('data-product-image');
+            if (id && name && price) {
+                addToCart(id, name, price, image);
+            }
+        });
+    });
+
+    if (checkoutBtn) {
+        checkoutBtn.addEventListener('click', () => {
+            showToast("Directing to secure checkout...");
+            setTimeout(() => {
+                alert("Thank you for your purchase! This is a demo checkout simulation.");
+                cart = [];
+                updateCartUI();
+                toggleCart(false);
+            }, 1000);
+        });
+    }
+
+    // ----------------------------------------------------------------
+    // 8. Sticky Floating Purchase Card Logic
+    // ----------------------------------------------------------------
+    const stickyCard = document.getElementById('sticky-purchase-card');
+    const stickySelect = document.getElementById('sticky-product-select');
+    const stickyThumb = document.getElementById('sticky-card-thumb');
+    const stickyQtyDec = document.getElementById('sticky-qty-dec');
+    const stickyQtyInc = document.getElementById('sticky-qty-inc');
+    const stickyQtyVal = document.getElementById('sticky-qty-val');
+    const stickyAddBtn = document.getElementById('sticky-add-btn');
+    const purchaseTypeRadios = document.querySelectorAll('input[name="sticky-purchase-type"]');
+    const optionSubLabel = document.getElementById('option-sub-label');
+    const optionOnceLabel = document.getElementById('option-once-label');
+
+    let stickyQty = 1;
+
+    // Toggle Sticky Card Visibility on Scroll
+    function handleStickyCardScroll() {
+        if (!stickyCard) return;
+        // Show after scrolling past 500px
+        if (window.scrollY > 500) {
+            stickyCard.classList.add('active');
+        } else {
+            stickyCard.classList.remove('active');
+        }
+    }
+    window.addEventListener('scroll', handleStickyCardScroll);
+    handleStickyCardScroll();
+
+    // Update Product Details when select dropdown changes
+    function updateStickyCardProduct() {
+        if (!stickySelect || !stickyThumb) return;
+        const selectedOption = stickySelect.options[stickySelect.selectedIndex];
+        if (!selectedOption) return;
+
+        const image = selectedOption.getAttribute('data-image');
+        stickyThumb.src = image;
+
+        // Update pricing labels
+        updateStickyPricing();
+    }
+
+    function updateStickyPricing() {
+        if (!stickySelect) return;
+        const selectedOption = stickySelect.options[stickySelect.selectedIndex];
+        if (!selectedOption) return;
+
+        const basePrice = parseFloat(selectedOption.getAttribute('data-price'));
+        const subPrice = parseFloat(selectedOption.getAttribute('data-sub-price'));
+
+        // Check subscription radio state
+        let isSub = false;
+        const checkedRadio = document.querySelector('input[name="sticky-purchase-type"]:checked');
+        if (checkedRadio && checkedRadio.value === 'sub') {
+            isSub = true;
+        }
+
+        const priceToUse = isSub ? subPrice : basePrice;
+
+        // Update button text with dynamic price
+        if (stickyAddBtn) {
+            stickyAddBtn.textContent = `Add to Bag — $${(priceToUse * stickyQty).toFixed(2)}`;
+        }
+    }
+
+    if (stickySelect) {
+        stickySelect.addEventListener('change', updateStickyCardProduct);
+    }
+
+    // Subscribe vs One-time Radio Select handlers
+    purchaseTypeRadios.forEach(radio => {
+        radio.addEventListener('change', (e) => {
+            if (e.target.value === 'sub') {
+                if (optionSubLabel) optionSubLabel.classList.add('active');
+                if (optionOnceLabel) optionOnceLabel.classList.remove('active');
+            } else {
+                if (optionSubLabel) optionSubLabel.classList.remove('active');
+                if (optionOnceLabel) optionOnceLabel.classList.add('active');
+            }
+            updateStickyPricing();
+        });
+    });
+
+    // Quantity controls
+    if (stickyQtyDec) {
+        stickyQtyDec.addEventListener('click', () => {
+            if (stickyQty > 1) {
+                stickyQty--;
+                if (stickyQtyVal) stickyQtyVal.textContent = stickyQty;
+                updateStickyPricing();
+            }
+        });
+    }
+
+    if (stickyQtyInc) {
+        stickyQtyInc.addEventListener('click', () => {
+            stickyQty++;
+            if (stickyQtyVal) stickyQtyVal.textContent = stickyQty;
+            updateStickyPricing();
+        });
+    }
+
+    // Add to Bag handler
+    if (stickyAddBtn && stickySelect) {
+        stickyAddBtn.addEventListener('click', () => {
+            const selectedOption = stickySelect.options[stickySelect.selectedIndex];
+            if (!selectedOption) return;
+
+            const name = selectedOption.getAttribute('data-name');
+            const basePrice = parseFloat(selectedOption.getAttribute('data-price'));
+            const subPrice = parseFloat(selectedOption.getAttribute('data-sub-price'));
+            const image = selectedOption.getAttribute('data-image');
+            const id = stickySelect.value;
+
+            // Check subscription radio state
+            let isSub = false;
+            const checkedRadio = document.querySelector('input[name="sticky-purchase-type"]:checked');
+            if (checkedRadio && checkedRadio.value === 'sub') {
+                isSub = true;
+            }
+
+            const price = isSub ? subPrice : basePrice;
+            const finalName = isSub ? `${name} (Subscription)` : name;
+
+            addToCart(id, finalName, price, image, stickyQty);
+        });
+    }
+
+    // ----------------------------------------------------------------
+    // 9. Coffee vs Matcha Scroll Animations
+    // ----------------------------------------------------------------
+    const comparisonSection = document.getElementById('comparison');
+    const compBarFills = document.querySelectorAll('.comp-bar-fill');
+
+    if (comparisonSection && compBarFills.length > 0) {
+        const comparisonObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    compBarFills.forEach(fill => {
+                        const targetWidth = fill.getAttribute('data-value');
+                        fill.style.width = targetWidth;
+                    });
+                    comparisonObserver.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.2
+        });
+        comparisonObserver.observe(comparisonSection);
+    }
+
+    // ----------------------------------------------------------------
+    // 10. Find Your Ritual Interactive Tabs
+    // ----------------------------------------------------------------
+    const ritualTabs = document.querySelectorAll('.ritual-tab-card');
+    const showcaseCard = document.getElementById('showcase-card');
+    const showcaseGlow = document.getElementById('showcase-glow');
+
+    const showcaseImg = document.getElementById('showcase-img');
+    const showcaseBadge = document.getElementById('showcase-badge');
+    const showcaseTitle = document.getElementById('showcase-title');
+    const showcaseBenefit = document.getElementById('showcase-benefit');
+    const showcasePrice = document.getElementById('showcase-price');
+    const showcaseBtn = document.getElementById('showcase-btn');
+
+    const ritualData = {
+        'morning-energy': {
+            img: 'images/uji_ritual_tin.png',
+            badge: 'Ceremonial Grade',
+            title: 'Uji Ritual',
+            benefit: 'Kickstart your day with high-concentration amino acids and chlorophyll for steady 6+ hour energy. Best served as traditional Usucha.',
+            price: '$38.00',
+            productId: 'uji-ritual',
+            productName: 'Uji Ritual',
+            productPrice: '38.00',
+            btnText: 'Add Morning Energy to Bag'
+        },
+        'deep-focus': {
+            img: 'images/daily_zen_tin.png',
+            badge: 'Daily Ritual',
+            title: 'Daily Zen',
+            benefit: 'Unlock cognitive flow state. High L-theanine buffers caffeine release, promoting relaxed focus and clean mental clarity for study or work sessions.',
+            price: '$26.00',
+            productId: 'daily-zen',
+            productName: 'Daily Zen',
+            productPrice: '26.00',
+            btnText: 'Add Deep Focus to Bag'
+        },
+        'calm-mind': {
+            img: 'images/uji_ritual_tin.png',
+            badge: 'Ceremonial Grade',
+            title: 'Uji Ritual',
+            benefit: 'Soothe mental fatigue. The premium stone-ground Uji leaves help downregulate stress hormones while improving meditation focus.',
+            price: '$38.00',
+            productId: 'uji-ritual',
+            productName: 'Uji Ritual',
+            productPrice: '38.00',
+            btnText: 'Add Calm Mind to Bag'
+        },
+        'study-mode': {
+            img: 'images/daily_zen_tin.png',
+            badge: 'Daily Ritual',
+            title: 'Daily Zen',
+            benefit: 'Supercharge retention and memory recall. Clean, crash-free clean energy that powers you through demanding exams and research sprints.',
+            price: '$26.00',
+            productId: 'daily-zen',
+            productName: 'Daily Zen',
+            productPrice: '26.00',
+            btnText: 'Add Study Mode to Bag'
+        },
+        'self-care': {
+            img: 'images/chasen_whisk.png',
+            badge: 'Aesthetic Accessory',
+            title: 'Chasen Bamboo Whisk',
+            benefit: 'Savor the art of the ceremony. Hand-crafted from 100-prong golden bamboo, whisking becomes a therapeutic screen-free self-care session.',
+            price: '$22.00',
+            productId: 'chasen-whisk',
+            productName: 'Chasen Bamboo Whisk',
+            productPrice: '22.00',
+            btnText: 'Add Self Care to Bag'
+        }
+    };
+
+    if (ritualTabs.length > 0 && showcaseCard) {
+        ritualTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                if (tab.classList.contains('active')) return;
+
+                const ritualType = tab.getAttribute('data-ritual');
+                const data = ritualData[ritualType];
+                if (!data) return;
+
+                ritualTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+
+                showcaseCard.classList.add('switching');
+                
+                if (showcaseGlow) {
+                    if (ritualType === 'morning-energy' || ritualType === 'calm-mind') {
+                        showcaseGlow.style.background = 'radial-gradient(circle, rgba(123, 241, 168, 0.2) 0%, transparent 70%)';
+                    } else if (ritualType === 'deep-focus' || ritualType === 'study-mode') {
+                        showcaseGlow.style.background = 'radial-gradient(circle, rgba(67, 128, 83, 0.25) 0%, transparent 70%)';
+                    } else {
+                        showcaseGlow.style.background = 'radial-gradient(circle, rgba(223, 178, 83, 0.15) 0%, transparent 70%)';
+                    }
+                }
+
+                setTimeout(() => {
+                    if (showcaseImg) showcaseImg.src = data.img;
+                    if (showcaseBadge) showcaseBadge.textContent = data.badge;
+                    if (showcaseTitle) showcaseTitle.textContent = data.title;
+                    if (showcaseBenefit) showcaseBenefit.textContent = data.benefit;
+                    if (showcasePrice) showcasePrice.textContent = data.price;
+
+                    if (showcaseBtn) {
+                        showcaseBtn.setAttribute('data-product-id', data.productId);
+                        showcaseBtn.setAttribute('data-product-name', data.productName);
+                        showcaseBtn.setAttribute('data-product-price', data.productPrice);
+                        showcaseBtn.setAttribute('data-product-image', data.img);
+                        showcaseBtn.textContent = data.btnText;
+                    }
+
+                    showcaseCard.classList.remove('switching');
+                }, 300);
+            });
+        });
+    }
+
+    // Initial runs
+    updateStickyCardProduct();
+    updateStickyPricing();
     updateSimulator();
 });
