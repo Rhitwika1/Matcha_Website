@@ -490,7 +490,9 @@ section {
     opacity: 0;
     transform: translateY(20px);
     animation: fadeInUp 1s forwards 1.1s;
-    margin-bottom: 6rem; /* space to keep scroll indicator from overlapping */
+    margin-bottom: 8rem; /* space to keep scroll indicator from overlapping */
+    position: relative; /* ensure stacking context for z-index */
+    z-index: 10;
 }
 
 
@@ -619,10 +621,10 @@ color:#474747;
     animation: fadeInUp 1.2s forwards 1.1s;
     cursor: pointer;
     position: absolute;
-    bottom: 2rem;
+    bottom: 3rem;
     left: 50%;
     transform: translateX(-50%);
-    z-index: 5;
+    z-index: 2;
 }
 
 .hero-scroll-indicator span {
