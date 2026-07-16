@@ -169,23 +169,3 @@ Live Website:
 https://matcha-website-sigma.vercel.app/
 
 ---
-
-# 👨‍💻 Author
-
-**Saikat Das**
-
-AI Engineer | Product Designer | Full Stack Developer
-
-GitHub:
-https://github.com/SaikatDash
-
-LinkedIn:
-(Add your LinkedIn)
-
----
-
-# 📄 License
-
-This project was created as part of a Product Design Assessment.
-
-The AI-generated assets are intended for educational and demonstration purposes.
