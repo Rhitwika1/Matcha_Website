@@ -734,12 +734,13 @@ color:#474747;
     transition: opacity 0.5s ease-out, transform 0.5s ease-out;
     
     /* Premium Glassmorphic backing card for absolute text readability on dynamic canvas */
-    background: rgba(251, 249, 246, 0.88);
+    /* Slightly reduced opacity for a more transparent look */
+    background: rgba(251, 249, 246, 0.12);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.28);
     border-radius: 28px;
-    box-shadow: 0 20px 45px rgba(5, 10, 6, 0.06);
+    box-shadow: 0 20px 45px rgba(5, 10, 6, 0.045);
     padding: 2.5rem 3rem;
 }
 
